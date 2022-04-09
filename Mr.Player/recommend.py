@@ -1,10 +1,13 @@
 import webbrowser
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
-import spotipy
+# load_dotenv()
+
 from spotipy.oauth2 import SpotifyClientCredentials
 import tkinter as tk
+import cred
+import spotipy
+
 
 
 def open_spotify(url):
@@ -41,8 +44,10 @@ def display_recommendations(response):
 
 def get_recommendations():
     search = ent_search.get()
-    sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials("8b8c976e610d4aa7bc97bac164d81e36",
-                                                                             "2e360b05e9764c5eb811fa15affab3e8"))
+    ID=cred.client_ID
+    KEY=cred.client_SECRET
+    sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(ID,KEY))
+    # sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=cred.client_id, client_secret= cred.client_secret, redirect_uri=cred.redirect_url))
     result = sp.search(q=search, limit=1)
     id_list = [result['tracks']['items'][0]['id']]
     recommendations = sp.recommendations(seed_tracks=id_list, limit=10)
